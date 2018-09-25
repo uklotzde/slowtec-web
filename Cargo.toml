@@ -1,0 +1,15 @@
+[package]
+name = "slowtec-web"
+version = "0.0.1"
+authors = [ "uwe.klotz@gmail.com" ]
+license = "tbd"
+publish = false
+
+[patch.crates-io]
+slowtec-core = { path = "../slowtec-core" }
+
+[dependencies]
+slowtec-core = "*"
+failure = "*"
+futures = "0.1"
+warp = "*"
