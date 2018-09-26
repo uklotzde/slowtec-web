@@ -60,7 +60,13 @@ pub trait WsConnectionContext: Send {
     ) -> Box<dyn Future<Item = (), Error = ()> + Send>;
 }
 
-pub fn new_connection_filter<N, C>(
+pub trait NewConnectionContext: Clone {
+    type Instance;
+
+    fn new_connection_context(&self) -> Self::Instance;
+}
+
+pub fn new_ws_connection_filter<N, C>(
     path: &'static str,
     new_connection_context: N,
 ) -> warp::filters::BoxedFilter<(impl warp::Reply,)>
