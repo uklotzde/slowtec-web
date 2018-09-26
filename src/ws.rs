@@ -15,13 +15,13 @@ use warp::{
 
 use slowtec_core::communication::connection::*;
 use slowtec_core::communication::message::MessagePayload;
-use slowtec_core::communication::push::PushConnection;
+use slowtec_core::communication::push;
 
 #[derive(Debug, Clone)]
-struct WsMessage(MessagePayload);
+struct Message(MessagePayload);
 
-impl From<WsMessage> for WarpMessage {
-    fn from(from: WsMessage) -> Self {
+impl From<Message> for WarpMessage {
+    fn from(from: Message) -> Self {
         match from.0 {
             MessagePayload::Text(text) => WarpMessage::text(text),
             MessagePayload::Binary(data) => WarpMessage::binary(data),
@@ -30,29 +30,29 @@ impl From<WsMessage> for WarpMessage {
 }
 
 /// The push channel of a WS connection
-pub type WsPushConnectionSink = stream::SplitSink<WebSocket>;
+pub type PushConnectionSink = stream::SplitSink<WebSocket>;
 
 #[derive(Debug)]
-pub struct WsPushConnection {
-    sink: WsPushConnectionSink,
+pub struct PushConnection {
+    sink: PushConnectionSink,
 }
 
-impl WsPushConnection {
-    pub fn new(sink: WsPushConnectionSink) -> Self {
+impl PushConnection {
+    pub fn new(sink: PushConnectionSink) -> Self {
         Self { sink }
     }
 }
 
-impl PushConnection for WsPushConnection {
+impl push::PushConnection for PushConnection {
     fn push_message(&mut self, message_payload: MessagePayload) -> ErrorResult<()> {
         self.sink
-            .start_send(WsMessage(message_payload).into())
+            .start_send(Message(message_payload).into())
             .map(|_| ())
             .map_err(Into::into)
     }
 }
 
-pub trait WsConnectionContext: Send {
+pub trait ConnectionContext: Send {
     fn handle_connection(
         self,
         ws: WebSocket,
@@ -66,13 +66,13 @@ pub trait NewConnectionContext: Clone {
     fn new_connection_context(&self) -> Self::Instance;
 }
 
-pub fn new_ws_connection_filter<N, C>(
+pub fn new_connection_path_filter<N, C>(
     path: &'static str,
     new_connection_context: N,
 ) -> warp::filters::BoxedFilter<(impl warp::Reply,)>
 where
     N: NewConnectionContext<Instance = C> + Send + Sync + 'static,
-    C: WsConnectionContext + 'static,
+    C: ConnectionContext + 'static,
 {
     let id_generator = Arc::new(ConnectionIdGenerator::default());
     let id_filter = warp::any().map(move || id_generator.generate_id());
