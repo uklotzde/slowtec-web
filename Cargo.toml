@@ -5,11 +5,8 @@ authors = [ "slowtec GmbH" ]
 license = "MIT/Apache-2.0"
 publish = false
 
-[patch.crates-io]
-slowtec-core = { path = "../slowtec-core" }
-
 [dependencies]
-slowtec-core = "*"
+slowtec-core = { version = "*", git = "https://gitlab.com/uklotzde/slowtec-core.git" }
 failure = "*"
 futures = "0.1"
 warp = "*"
