@@ -44,7 +44,7 @@ impl PushConnection {
 }
 
 impl push::PushConnection for PushConnection {
-    fn push_message(&mut self, message_payload: MessagePayload) -> ErrorResult<()> {
+    fn push_message(&mut self, message_payload: MessagePayload) -> Fallible<()> {
         self.sink
             .start_send(Message(message_payload).into())
             .map(|_| ())
