@@ -13,8 +13,8 @@ use warp::{
     Filter,
 };
 
-use slowtec_core::controllers::messaging;
-use slowtec_core::util::{connection::*, message::MessagePayload};
+use slowtec_core::domain::connection::{ConnectionId, ConnectionIdGenerator};
+use slowtec_core::domain::messaging::{MessagePayload, PushMessageChannel};
 
 #[derive(Debug, Clone)]
 struct Message(MessagePayload);
@@ -42,7 +42,7 @@ impl PushConnection {
     }
 }
 
-impl messaging::PushConnection for PushConnection {
+impl PushMessageChannel for PushConnection {
     fn push_message(&mut self, message_payload: MessagePayload) -> Fallible<()> {
         self.sink
             .start_send(Message(message_payload).into())
