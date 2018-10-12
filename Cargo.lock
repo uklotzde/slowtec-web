@@ -696,7 +696,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "slowtec-core"
 version = "0.0.1"
-source = "git+https://gitlab.com/uklotzde/slowtec-core.git#9333b9cc5f507a3476be1bdfe8e39f5459461b88"
+source = "git+https://gitlab.com/uklotzde/slowtec-core.git#6e06593526a6d55066dae7073a7521a3cc3bc9fb"
 dependencies = [
  "chrono 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "failure 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
