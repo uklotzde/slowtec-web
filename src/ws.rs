@@ -13,8 +13,8 @@ use warp::{
     Filter,
 };
 
-use slowtec_core::domain::connection::{ConnectionId, ConnectionIdGenerator};
 use slowtec_core::domain::messaging::{MessagePayload, PushMessageChannel};
+use slowtec_core::util::connection::{ConnectionId, ConnectionIdGenerator};
 
 #[derive(Debug, Clone)]
 struct Message(MessagePayload);
