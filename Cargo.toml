@@ -6,7 +6,7 @@ license = "MIT/Apache-2.0"
 publish = false
 
 [dependencies]
-slowtec-core = { version = "*", git = "https://gitlab.com/uklotzde/slowtec-core.git" }
+slowtec-core = { version = "*", git = "https://gitlab.com/uklotzde/slowtec-core.git", branch = "master" }
 failure = "*"
 futures = "0.1"
 warp = "*"
