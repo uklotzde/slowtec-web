@@ -3,6 +3,7 @@ name = "slowtec-web"
 version = "0.0.1"
 authors = [ "slowtec GmbH" ]
 license = "MIT/Apache-2.0"
+edition = "2018"
 publish = false
 
 [dependencies]

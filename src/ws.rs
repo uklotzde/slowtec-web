@@ -82,5 +82,6 @@ where
         .and(context_filter)
         .map(|ws2: warp::ws::Ws2, connection_id, connection_context: C| {
             ws2.on_upgrade(move |ws| connection_context.handle_connection(ws, connection_id))
-        }).boxed()
+        })
+        .boxed()
 }
